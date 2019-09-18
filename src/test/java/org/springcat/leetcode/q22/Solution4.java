@@ -3,7 +3,9 @@ package org.springcat.leetcode.q22;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。
@@ -31,31 +33,23 @@ import java.util.*;
  *   "()", 10
  * ]
  */
-public class Solution2 {
+public class Solution4 {
     public List<String> generateParenthesis(int n) {
-		if(n == 0) {
-			return Arrays.asList();
-		}
-		Set<String> result = new HashSet<>();
-		result.add("()");
-		for (int i = 1; i < n; i++) {
-			result = merge(result);
-		}
-		return new ArrayList<String>(result);
-	}
-
-	private Set<String> merge(Set<String> temp){
-		HashSet<String> result = new HashSet<>();
-		for (String s : temp) {
-			for (int i = 0; i < s.length(); i++) {
-				StringBuilder stringBuilder = new StringBuilder(s);
-				stringBuilder.insert(i,"()");
-				result.add(stringBuilder.toString());
-			}
-		}
+		List<String> result = new ArrayList<String>();
+		buildString(result,"",n,0,0);
 		return result;
 	}
-
+	private void buildString(List<String> result,String currentStr,int n,int left,int right){
+    	//完成生成
+    	if(currentStr.length() == 2*n ){
+    		result.add(currentStr);
+			return;
+		}
+		if (left < n)
+			buildString(result, currentStr+"(", n,left+1, right);
+		if (left > right)
+			buildString(result, currentStr+")", n,left, right+1);
+	}
 
 	@Test
 	public void test1(){
@@ -67,7 +61,11 @@ public class Solution2 {
 				"()(())",
 				"()()()"
 		};
-		Assert.assertArrayEquals(except,strings.toArray());
+		String[] actual = new String[strings.size()];
+		strings.toArray(actual);
+		Arrays.sort(actual);
+		Arrays.sort(except);
+		Assert.assertArrayEquals(except,actual);
 	}
 
 }
