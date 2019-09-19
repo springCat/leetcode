@@ -48,6 +48,7 @@ public class Solution {
 			head = temp;
 			n--;
 		}
+
 		if( tempIndex != null && n == 0) {
 			tail.next = reverseKGroup(tempIndex, k);
 		}
@@ -68,13 +69,5 @@ public class Solution {
 		ListNode except = Utils.me.init(i);
 
 		Assert.assertTrue(Utils.me.isEqual(except,result));
-	}
-
-	@Test
-	public void test2(){
-		int[] i1 = {1,2,3,4,5,6,7,8,9,10,11};
-		ListNode init = Utils.me.init(i1);
-		ListNode reverse = reverse(init,3);
-		Utils.me.printLinklist(reverse);
 	}
 }
